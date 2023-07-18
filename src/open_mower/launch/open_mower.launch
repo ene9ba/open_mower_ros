@@ -8,6 +8,10 @@
     </include>
 
     <node pkg="mower_map" type="mower_map_service" name="map_service" output="screen"/>
+    
+    
+    
+    
     <node pkg="mower_logic" type="mower_logic" name="mower_logic" output="screen">
         <param name="automatic_mode" value="$(optenv OM_AUTOMATIC_MODE 0)"/>
         <param name="docking_distance" value="$(env OM_DOCKING_DISTANCE)"/>
