@@ -361,7 +361,7 @@ int main(int argc, char **argv)
   if (My_WifiQuality.target_ping == NULL) ROS_ERROR("Environment Variable is not set. Set: export OM_TARGET_PING= <address>, e.g. export OM_TARGET_PING=192.168.1.1");
 
 
-  ros::init(argc, argv, "talker");
+  ros::init(argc, argv, "mower_inf");
  
   ros::NodeHandle n;
 
