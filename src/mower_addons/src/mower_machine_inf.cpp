@@ -317,7 +317,7 @@ int main(int argc, char **argv)
   my_cpu_perf_info.unit = "%";
   my_cpu_perf_info.sensor_id = "om_cpu_performance";
   my_cpu_perf_info.sensor_name = "CPU Performance";
-/*
+
   my_wifi_rssi_info.has_critical_high = false;
   my_wifi_rssi_info.has_critical_low = false;
   my_wifi_rssi_info.has_min_max = true;
@@ -339,7 +339,7 @@ int main(int argc, char **argv)
   my_pingtime_info.unit = "ms";
   my_pingtime_info.sensor_id = "om_ping";
   my_pingtime_info.sensor_name = "Ping time";
-*/
+
 
   bool fan_on = false;
 
@@ -376,9 +376,19 @@ int main(int argc, char **argv)
   ros::Publisher sensor_cpu_perf_data_publisher = n.advertise<xbot_msgs::SensorDataDouble>("xbot_monitoring/sensors/" + my_cpu_perf_info.sensor_id + "/data", 1, false);
   sensor_cpu_perf_info_publisher.publish(my_cpu_perf_info);
 
+  ros::Publisher sensor_pingtime_info_publisher = n.advertise<xbot_msgs::SensorInfo>("xbot_monitoring/sensors/" + my_pingtime_info.sensor_id + "/info", 1, true);
+  ros::Publisher sensor_pingtime_data_publisher = n.advertise<xbot_msgs::SensorDataDouble>("xbot_monitoring/sensors/" + my_pingtime_info.sensor_id + "/data", 1, false);
+  sensor_pingtime_info_publisher.publish(my_pingtime_info);
+
+  ros::Publisher sensor_rssi_info_publisher = n.advertise<xbot_msgs::SensorInfo>("xbot_monitoring/sensors/" + my_wifi_rssi_info.sensor_id + "/info", 1, true);
+  ros::Publisher sensor_rssi_data_publisher = n.advertise<xbot_msgs::SensorDataDouble>("xbot_monitoring/sensors/" + my_wifi_rssi_info.sensor_id + "/data", 1, false);
+  sensor_rssi_info_publisher.publish(my_wifi_rssi_info);
+
 
 
   xbot_msgs::SensorDataDouble data;
+
+  
 
   ros::Rate loop_rate(1);
 
@@ -450,6 +460,12 @@ int main(int argc, char **argv)
     
     data.data = My_cpu_info.cpu_perf;
     sensor_cpu_perf_data_publisher.publish(data);
+
+    data.data = My_WifiQuality.network_info.ping_response;
+    sensor_pingtime_data_publisher.publish(data);
+
+    data.data = My_WifiQuality.network_info.signal;
+    sensor_rssi_data_publisher.publish(data);
 
 
 

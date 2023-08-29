@@ -4,9 +4,9 @@
   <version>0.0.0</version>
   <description>mower_addons package pusblish Ping, wifi info, CPU usage</description>
   
-  <maintainer email="ene9ba@todo.todo">ene9ba</maintainer>
+  <maintainer email="elmar.elflein@googlemail.com">ene9ba</maintainer>
   
-  <license>TODO</license>
+  <license>CC BY-NC-SA 4.0</license>
 
   
   <buildtool_depend>catkin</buildtool_depend>
