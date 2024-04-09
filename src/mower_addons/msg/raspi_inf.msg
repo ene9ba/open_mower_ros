@@ -9,4 +9,3 @@ float64 CPU_performance     # performance all Cores
 float64 CPU_temperature     # Temperature
 float64 pingtime            # Response time from ping
 
- 
