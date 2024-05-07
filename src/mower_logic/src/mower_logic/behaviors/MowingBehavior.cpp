@@ -328,6 +328,7 @@ bool MowingBehavior::execute_mowing_plan() {
             moveBaseGoal.target_pose = path.path.poses[currentMowingPathIndex];
             moveBaseGoal.controller = "FTCPlanner";
             mbfClient->sendGoal(moveBaseGoal);
+            sleep(1);
             actionlib::SimpleClientGoalState current_status(actionlib::SimpleClientGoalState::PENDING);
             ros::Rate r(10);
 
@@ -438,6 +439,7 @@ bool MowingBehavior::execute_mowing_plan() {
 
             ROS_INFO_STREAM("MowingBehavior: (MOW) First point reached - Executing mow path with " << path.path.poses.size() << " poses, from index " << exePathStartIndex);
             mbfClientExePath->sendGoal(exePathGoal);
+            sleep(1);
             actionlib::SimpleClientGoalState current_status(actionlib::SimpleClientGoalState::PENDING);
             ros::Rate r(10);
 
@@ -532,6 +534,11 @@ bool MowingBehavior::execute_mowing_plan() {
 }
 
 void MowingBehavior::command_home() {
+    if(shared_state->active_semiautomatic_task) {
+        // We are in semiautomatic task, mark it as manually paused.
+        ROS_INFO_STREAM("Manually pausing semiautomatic task");
+        shared_state->semiautomatic_task_paused = true;
+    }
     if (paused)
     {
         // Request continue to wait for odom
@@ -543,6 +550,12 @@ void MowingBehavior::command_home() {
 
 void MowingBehavior::command_start() {
     ROS_INFO_STREAM("MowingBehavior: MANUAL CONTINUE");
+    if(shared_state->active_semiautomatic_task && shared_state->semiautomatic_task_paused) {
+        // We are in semiautomatic task and paused, user wants to resume, so store that immediately.
+        // This way, once we are docked the mower will continue as soon as all other conditions are g2g
+        ROS_INFO_STREAM("Resuming semiautomatic task");
+        shared_state->semiautomatic_task_paused = true;
+    }
     this->requestContinue();
 }
 
