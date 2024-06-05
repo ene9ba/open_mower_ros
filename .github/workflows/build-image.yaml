@@ -3,17 +3,22 @@ name: Build
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+    inputs:
+      clean_build:
+        description: 'Clean build without cache'
+        default: false
+        type: boolean
   push:
     branches:
       - 'main'
       - 'releases/**'
     tags:
-      - 'v*.*.*'
+      - 'v*'
   pull_request:
     branches:
       - 'main'
 
-# Allow to stop obsolete workflows
+# Allow stopping obsolete workflows
 concurrency:
   group: ci-buildtrain-${{ github.ref }}-1
   cancel-in-progress: true
@@ -76,7 +81,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./docker/Dockerfile
           platforms: ${{ matrix.docker_build_arch }}
+          no-cache: ${{ inputs.clean_build == true }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=ghcr.io/${{ env.REPOSITORY_LC }},push-by-digest=true,name-canonical=true,push=true
           cache-from: type=gha
