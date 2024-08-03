@@ -19,9 +19,9 @@ bool emergency
 float32 v_charge
 float32 v_battery
 float32 charge_current
+bool mow_enabled
 
 # ESC stuff
 ESCStatus left_esc_status
 ESCStatus right_esc_status
 ESCStatus mow_esc_status
-
