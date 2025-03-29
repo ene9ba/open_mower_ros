@@ -5,7 +5,7 @@
 <launch>
     <!-- TODO: Add parameter for simulation -->
 
-    <node pkg="mower_comms" type="mower_comms" name="mower_comms" output="screen">
+    <node pkg="mower_comms" type="mower_comms" name="mower_comms" unless="$(optenv OM_NO_COMMS False)" output="screen">
         <rosparam unless="$(eval env('OM_MOWER')=='CUSTOM')" file="$(find open_mower)/params/hardware_specific/$(env OM_MOWER)/comms_general_params.yaml"/>
         <rosparam unless="$(eval env('OM_MOWER')=='CUSTOM')" file="$(find open_mower)/params/hardware_specific/$(env OM_MOWER)/comms_$(env OM_MOWER_ESC_TYPE)_params.yaml"/>
         <rosparam if="$(eval env('OM_MOWER')=='CUSTOM')" file="$(env HOME)/mower_params/comms_params.yaml"/>
@@ -14,6 +14,7 @@
         <param name="dfp_is_5v" value="$(optenv OM_DFP_IS_5V False)"/>
         <param name="language" value="$(optenv OM_LANGUAGE en)"/>
         <param name="volume" value="$(optenv OM_VOLUME -1)"/>
+        <param name="background_sounds" value="$(optenv OM_BACKGROUND_SOUNDS False)"/>
     </node>
 
     <include file="$(find open_mower)/launch/include/_gps.launch" unless="$(optenv OM_NO_GPS False)">
