@@ -137,6 +137,6 @@
         <param name="xbot_monitoring/software_version" value="$(optenv OM_SOFTWARE_VERSION)"/>
 
         <!-- heatmap_generator -->
-        <param name="sensor_ids" value="$(optenv OM_HEATMAP_SENSOR_IDS)"/>
+        <param name="heatmap_generator/sensor_ids" value="$(optenv OM_HEATMAP_SENSOR_IDS)"/>
     </group>
 </launch>
