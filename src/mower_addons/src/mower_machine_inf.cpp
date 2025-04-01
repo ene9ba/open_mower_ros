@@ -104,12 +104,13 @@ class Wifi_Quality {
               network_info.rx_packets      =     station.rx_packets;
               network_info.tx_packets      =     station.tx_packets;
             }
+            return status;
           }  
 
 		
 				
 
-          return status;
+          return 0;
       }
 
 
@@ -183,7 +184,7 @@ class Wifi_Quality {
     struct wifi_scan *wifi=NULL;    //this stores all the library information
 	  struct station_info station;    //this is where we are going to keep information about AP (Access Point) we are connected to
 	  char mac[BSSID_STRING_LENGTH];  //a placeholder where we convert BSSID to printable hardware mac address
-	  int status;
+	  int status=0;
     
     
     
